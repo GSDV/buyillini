@@ -6,7 +6,6 @@ import { createAuthToken } from '@util/prisma/actions/tokens';
 
 import { isValidUser } from '@util/api/auth';
 import { isValidEmail, hashPassword } from '@util/api/user';
-import { revalidatePath } from 'next/cache';
 
 
 
