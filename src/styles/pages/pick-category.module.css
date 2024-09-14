@@ -1,0 +1,33 @@
+.grid {
+    padding: min(1.5vw, 20px);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: min(2.5vw, 30px) min(1.5vw, 20px);
+
+}
+
+.gridItem {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.category {
+    padding: min(0.5vw, 10px);
+    max-width: 300px;
+    border: 5px solid var(--black);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+}
+
+.catTitle {
+    font-size: clamp(1rem, 3.5vw, 1.9em);
+}

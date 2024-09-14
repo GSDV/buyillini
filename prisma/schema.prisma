@@ -1,0 +1,187 @@
+generator client {
+    provider = "prisma-client-js"
+    previewFeatures = ["omitApi"]
+}
+
+datasource db {
+    provider    = "postgresql"
+    url         =  env("DATABASE_URL")
+    directUrl   =  env("DIRECT_URL")
+}
+
+
+
+enum Role {
+    ADMIN
+    USER
+}
+
+
+
+
+
+model User {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    role                Role                @default(USER)
+
+    password            String
+    salt                String
+
+    email               String              @unique
+    netId               String              @unique
+    phoneNumber         String              @default("")
+    displayName         String
+    profilePicture      String              @default("")
+
+    // Auth tokens issued to a user. ALL tokens in the array are valid
+    tokens              AuthToken[]         @relation("UserAuthToken")
+
+    // Reset password tokens issued to a user. Only the last token in the array is valid.
+    rpTokens            RPToken[]           @relation("UserResetPasswordToken")
+
+    // All reports this user has made on posts
+    reports             PostReport[]        @relation("Reporter")
+
+    // All reports this user has made on posts
+    interestedPosts     BuyerInterest[]     @relation("Buyer")
+
+    // Posts posted as a seller
+    posts               Post[]              @relation("UserPost")
+    // Has the account been activated through email?
+    active              Boolean             @default(false)
+    activateTokens      ActivateToken[]     @relation("EmailVerificationToken")
+
+    // Has this account been deleted?
+    deleted             Boolean             @default(false)
+
+    // Has this account been banned?
+    banned              Boolean             @default(false)
+    banExpiration       DateTime?
+    banMsg              String?
+}
+
+
+
+model Post {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    displayDate           DateTime           @default(now())
+
+    // Seller who posted the post
+    sellerId            String
+    seller              User                @relation("UserPost", fields: [sellerId], references: [id], onDelete: Cascade)
+
+    // Has this post been paid for or confirmed?
+    active              Boolean             @default(false)
+
+    // Has the post expired or been deleted?
+    deleted             Boolean             @default(false)
+
+    // All reports this post has gotten
+    reports             PostReport[]        @relation("ReportedPost")
+
+    // All reports this post has gotten
+    interestedBuyers    BuyerInterest[]     @relation("BuyerPost")
+
+    // Post info:
+    title               String              @db.VarChar(50)
+    description         String              @db.VarChar(300)
+
+    category            String
+    price               Decimal             @db.Decimal(6, 2)
+    size                String
+    gender              String
+
+    images              String[]
+}
+
+
+
+
+
+// Account activation tokens, sent by email
+model ActivateToken {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    token               String              @unique
+
+    userId              String
+    user                User                @relation("EmailVerificationToken", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+
+
+
+// Token given to users to authorize account actions
+// Lets us know if the user is who he says he is
+model AuthToken {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    token               String              @unique
+
+    userId              String
+    user                User                @relation("UserAuthToken", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+
+
+
+// Token send to a user's email to reset password
+model RPToken {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    token               String
+
+    userId              String
+    user                User                @relation("UserResetPasswordToken", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+
+
+
+// Reporter is required, but if an account is deleted the reports still are available in the database (hence the "?"s)
+model PostReport {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    msg                 String
+
+    reporterId          String?
+    reporter            User?               @relation("Reporter", fields: [reporterId], references: [id], onDelete: SetNull)
+
+    reportedPostId      String
+    reportedPost        Post                @relation("ReportedPost", fields: [reportedPostId], references: [id], onDelete: Cascade)
+}
+
+
+
+
+
+model BuyerInterest {
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
+    id                  String              @id @default(cuid())
+
+    msg                 String
+
+    buyerId             String?
+    buyer               User?               @relation("Buyer", fields: [buyerId], references: [id], onDelete: SetNull)
+
+    postId              String
+    post                Post                @relation("BuyerPost", fields: [postId], references: [id], onDelete: Cascade)
+}
