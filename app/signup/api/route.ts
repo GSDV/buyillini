@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-import { CONTACT_EMAIL, DOMAIN } from '@util/global';
+import { CONTACT_EMAIL } from '@util/global';
 
 import { createUser, getRedactedUser, getRedactedUserFromAuth } from '@util/prisma/actions/user';
 import { createActivateToken, createAuthToken } from '@util/prisma/actions/tokens';
