@@ -38,10 +38,6 @@ export const getCategoryTitle = (link: string) => CATEGORIES.find(cat => cat.lin
 
 
 
-// Each user gets this many free months when signing up
-export const DEFAULT_FREE_MONTHS = 5;
-
-
 // ActivateTokens are expired if they were sent more than an hour ago
 export const ACTIVATE_TOKEN_EXPIRATION = 60;
 
@@ -101,7 +97,6 @@ export const CLOTHING_SIZES = [
     'L',
     'XL'
 ];
-// export type SizeType = typeof CLOTHING_SIZES[number];
 
 
 export const GENDERS = [
