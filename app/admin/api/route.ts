@@ -6,7 +6,7 @@ import { isAdmin } from '@util/prisma/actions/admin';
 
 
 // Check if admin account
-export async function GET(req: NextRequest, { params }: { params: { netId: string } }) {
+export async function GET(req: NextRequest) {
     try {
         const authTokenCookie = cookies().get('authtoken');
         const resPermissions = await isAdmin(authTokenCookie);
