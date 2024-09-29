@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { RedactedUser, RedactedUserWithPosts } from '@util/prisma/types';
 
-import Loading, { CheckIfLoading } from '@components/Loading';
+import { CheckIfLoading } from '@components/Loading';
 
 import { AlertType, CheckIfAlert } from '@components/Alert';
 import Account from '@components/pages/account/Account';

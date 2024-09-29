@@ -25,7 +25,7 @@ export default function ViewPost({ post }: { post: Post }) {
                 <h3>Category: {getCategoryTitle(post.category)}</h3>
                 {!NO_SIZE_GENDER_CATEGORIES.includes(post.category) && <h3>Size: {post.size}</h3>}
                 {!NO_SIZE_GENDER_CATEGORIES.includes(post.category) && <h3>Gender: {post.gender}</h3>}
-                {!post.deleted && <h3>Expires on {formatDate(new Date(post.expireDate))}</h3>}
+                {!post.deleted && <h3>Posted on {formatDate(new Date(post.createdAt))}</h3>}
             </div>
         </div>
     );

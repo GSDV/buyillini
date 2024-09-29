@@ -18,8 +18,6 @@ export default function DisplayUser({ user }: { user: User }) {
             <h4><b>Role: </b>{user.role}</h4>
             <h4><b>Created: </b>{formatDate(new Date(user.createdAt))}</h4>
 
-            <h4><b>Free Months: </b>{user.freeMonths}</h4>
-
             <h4><b>Active: </b>{user.active.toString()}</h4>
             <h4><b>Deleted: </b>{user.deleted.toString()}</h4>
             <h4><b>Banned: </b>{user.banned.toString()}</h4>

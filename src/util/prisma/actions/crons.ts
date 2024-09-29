@@ -4,14 +4,14 @@ import { prisma } from '@util/prisma/client';
 
 
 
-export const markDeleteAllExpiredPosts = async () => {
-    const now = new Date();
-    const res = await prisma.post.updateMany({
-        where: { deleted: false, active: true, expireDate: {lte: now} },
-        data: { deleted: true }
-    });
-    return res.count;
-}
+// export const markDeleteAllExpiredPosts = async () => {
+//     const now = new Date();
+//     const res = await prisma.post.updateMany({
+//         where: { deleted: false, active: true, expireDate: {lte: now} },
+//         data: { deleted: true }
+//     });
+//     return res.count;
+// }
 
 
 

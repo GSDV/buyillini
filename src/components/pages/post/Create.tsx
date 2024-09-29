@@ -10,7 +10,7 @@ import { Alert, AlertType } from '@components/Alert';
 
 import createPostStyles from '@styles/pages/create-post.module.css';
 import { CheckIfLoading } from '@components/Loading';
-import { Category, Description, Images, Gender, Price, Size, Title } from './inputs/Inputs';
+import { Category, Description, Images, Gender, Price, Size, Title } from './Inputs';
 import { urlToFile } from '@util/photos/urlToFile';
 import { clientUploadImagesAndGetKeys } from '@util/photos/clientUpload';
 
@@ -65,14 +65,14 @@ export default function Create({ draftedPost }: { draftedPost: Post }) {
         const inputData = await getData();
         if (inputData === null) return;
 
-        const res = await fetch(`/create/postId/api/free`, {
+        const res = await fetch(`/create/postId/api/`, {
             method: 'POST',
             body: JSON.stringify({ inputData }),
             headers: { 'Content-Type': 'application/json' }
         });
         const resJson = await res.json();
         if (resJson.cStatus==200) {
-            router.push(`/create/${resJson.postId}/free`);
+            router.push(`/create/${resJson.postId}/`);
         }
         else {
             setAlert(resJson);

@@ -1,6 +1,7 @@
 import hiwStyles from '@styles/pages/how-it-works.module.css';
 
 
+
 export default function Page() {
     const steps: Step[] = [
         {title: '1) Post an item', imgSrc: '/steps/1.png', subtitle: 'Can be anything, not just clothing.'},

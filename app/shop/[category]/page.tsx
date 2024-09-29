@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PostWithRedactedUser } from '@util/prisma/types';
-import Loading, { CheckIfLoading } from '@components/Loading';
+import { CheckIfLoading } from '@components/Loading';
 
 import VerticalLayout from '@components/containers/VerticalLayout';
 import { AlertType, CheckIfAlert } from '@components/Alert';

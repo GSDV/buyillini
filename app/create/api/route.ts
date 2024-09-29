@@ -21,10 +21,10 @@ export async function GET(req: NextRequest) {
 
         if (!draftedPostPrisma) {
             const newDraftedPostPrisma = await createDraftedPost(user.id);
-            return NextResponse.json({ cStatus: 200, msg: `Success (made new draft post).`, freeMonths: user.freeMonths, draftedPost: newDraftedPostPrisma }, { status: 200 });
+            return NextResponse.json({ cStatus: 200, msg: `Success (made new draft post).`, draftedPost: newDraftedPostPrisma }, { status: 200 });
         }
 
-        return NextResponse.json({ cStatus: 200, msg: `Success.`, freeMonths: user.freeMonths, draftedPost: draftedPostPrisma }, { status: 200 });
+        return NextResponse.json({ cStatus: 200, msg: `Success.`, draftedPost: draftedPostPrisma }, { status: 200 });
     } catch (err) {
         return NextResponse.json({ cStatus: 905, msg: `Server error: ${err}` }, { status: 400 });
     }

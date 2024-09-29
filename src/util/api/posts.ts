@@ -7,8 +7,6 @@ import { EditPostData, PostData } from '@util/prisma/actions/posts';
 export const isPostValid = (post: Post | null) => {
     if (!post) return { valid: false, nextres: { cStatus: 430, msg: `Post does not exist.` } };
     if (!post.active) return { valid: false, nextres: { cStatus: 432, msg: `This post is not active` } };
-    const currentDate = new Date();
-    if (currentDate > post.expireDate) return { valid: false, nextres: { cStatus: 434, msg: `This post has expired.` } };
     if (post.deleted) return { valid: false, nextres: { cStatus: 433, msg: `This post has been deleted.` } };
     return { valid: true };
 }
@@ -22,12 +20,10 @@ export interface InputPostData {
     size: string,
     gender: string,
     price: string,
-    images: string[],
-    duration: string,
-    freeMonthsUsed: string
+    images: string[]
 }
 export const isValidInputPostData = (inputData: any) => {
-    const { title, description, category, size, gender, price, images, duration, freeMonthsUsed } = inputData;
+    const { title, description, category, size, gender, price, images } = inputData;
 
     const msg = function() {
         if (!title) return `Missing title.`;
@@ -37,10 +33,8 @@ export const isValidInputPostData = (inputData: any) => {
         if (!gender) return `Missing gender.`;
         if (!price) return `Missing price.`;
         if (!images) return `Missing images.`;
-        if (!duration) return `Missing listing duration.`;
-        if (!freeMonthsUsed) return `Missing free months used.`;
 
-        if (typeof title != 'string' || typeof description != 'string' || typeof category != 'string' || typeof size != 'string' || typeof gender != 'string' || typeof price != 'string' || typeof images != 'object' || typeof duration != 'string' || typeof freeMonthsUsed != 'string') {
+        if (typeof title != 'string' || typeof description != 'string' || typeof category != 'string' || typeof size != 'string' || typeof gender != 'string' || typeof price != 'string' || typeof images != 'object') {
             return `Something went wrong (incorrect input field types).`;
         }
 
@@ -54,10 +48,6 @@ export const isValidInputPostData = (inputData: any) => {
         if (Number(price)<0 || Number(price)>9999.99) return `Price must be between $0 and $9,999.99.`;
 
         if (images.length<=0 || images.length>5) return `Must provide 1 to 5 images.`;
-
-        if (Number(duration)<=0 || Number(duration)>10) return `Listing period must be between 1 and 10.`;
-        if (Number(freeMonthsUsed)<0 || Number(freeMonthsUsed)>10) return `Free months used must be between 0 and 10.`;
-        if (freeMonthsUsed > duration) return `You specified more free months than listing duration.`;
     
         return ``;
     }();
@@ -65,12 +55,10 @@ export const isValidInputPostData = (inputData: any) => {
     return { valid: (msg===``), msg: msg };
 }
 export const createPostDataFromInputs = (data: InputPostData) => {
-    const { price, duration, freeMonthsUsed, ...overlapData } = data;
+    const { price, ...overlapData } = data;
     const postData: PostData = {
         ...overlapData,
-        price: Number(price),
-        duration: Number(duration),
-        freeMonthsUsed: Number(freeMonthsUsed)
+        price: Number(price)
     }
     return postData;
 }

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 import { getUser, banUser, updateUser, deleteUser, isAdmin, markDeleteUser } from '@util/prisma/actions/admin';
-import { addFreeMonthsToUser } from '@util/prisma/actions/user';
 
 
 
@@ -51,9 +50,6 @@ export async function PUT(req: NextRequest) {
             //     const userData = { role: 'USER' };
             //     await updateUser({ netId: data.netId }, userData);
             //     break;
-            case 'ADD_FREE_MONTHS':
-                await addFreeMonthsToUser({ netId: data.netId }, data.freeMonths);
-                break;
             case 'UNBAN_USER':
                 const unbanData = { banned: false, banMsg: '', banExpiration: null };
                 await updateUser({ netId: data.netId }, unbanData);

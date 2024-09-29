@@ -2,7 +2,7 @@
 
 import { UserFiltersType } from '@components/pages/shop/Filters';
 import { hasBuyerInterestExpired } from '@util/api/posts';
-import { CATEGORIES, CLOTHING_SIZES, GENDERS, MONTH_TO_MILLI, POST_PER_PAGE, POST_PER_PAGE_ACCOUNT } from '@util/global';
+import { CATEGORIES, CLOTHING_SIZES, GENDERS, POST_PER_PAGE, POST_PER_PAGE_ACCOUNT } from '@util/global';
 import { prisma } from '@util/prisma/client';
 import { deleteFromS3 } from '@util/s3/aws';
 
@@ -11,13 +11,6 @@ import { deleteFromS3 } from '@util/s3/aws';
 export const getPost = async (postId: string) => {
     const postPrisma = await prisma.post.findFirst({
         where: { id: postId }
-    });
-    return postPrisma;
-}
-export const getPostWithPayment = async (postId: string) => {
-    const postPrisma = await prisma.post.findFirst({
-        where: { id: postId },
-        include: { payment: true }
     });
     return postPrisma;
 }
@@ -68,24 +61,11 @@ export interface PostData {
     size: string,
     gender: string,
     price: number,
-    images: string[],
-    duration: number,
-    freeMonthsUsed: number
+    images: string[]
 }
-export const createFreePost = async (postData: PostData, userId: string) => {
-    const expiration = new Date(Date.now() + postData.duration*MONTH_TO_MILLI);
-    const createData = { sellerId: userId, ...postData, isPaid: false, expireDate: expiration };
+export const createPost = async (postData: PostData, userId: string) => {
     const res = await prisma.post.create({
-        data: createData
-    });
-    return res.id;
-}
-
-export const createPaidPost = async (postData: PostData, userId: string) => {
-    const expiration = new Date(Date.now() + postData.duration*MONTH_TO_MILLI);
-    const createData = { sellerId: userId, ...postData, isPaid: true, expireDate: expiration };
-    const res = await prisma.post.create({
-        data: createData
+        data: { sellerId: userId, ...postData }
     });
     return res.id;
 }
@@ -109,11 +89,7 @@ export const createDraftedPost = async (id: string) => {
             size: CLOTHING_SIZES[0],
             gender: GENDERS[0],
             price: 0,
-            images: [],
-            duration: 1,
-            isPaid: true,
-            freeMonthsUsed: 0,
-            expireDate: new Date(Date.now() + MONTH_TO_MILLI),
+            images: []
         }
     });
     return postPrisma;

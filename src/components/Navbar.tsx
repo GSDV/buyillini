@@ -125,8 +125,8 @@ function Popup({ items }: { items: NavItem[] }) {
             {items.map((item, i) => <MiniNavbarItem title={item.title} link={item.link} key={i} />)}
 
             {/* SPACERS */}
-            <div></div>
-            <div></div>
+            {/* <div></div>
+            <div></div> */}
 
             <div onClick={msContext.closeMenu} className={navbarStyles.miniNavbarItem}>
                 <h1>Close</h1>

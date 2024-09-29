@@ -10,8 +10,7 @@ import { Alert, AlertType } from '@components/Alert';
 
 import createPostStyles from '@styles/pages/create-post.module.css';
 import { CheckIfLoading } from '@components/Loading';
-import { Category, Description, Gender, Images, Price, Size, Title } from './inputs/Inputs';
-import { makePostPicture } from '@util/photos/crop';
+import { Category, Description, Gender, Images, Price, Size, Title } from '@components/pages/post/Inputs';
 import { urlToFile } from '@util/photos/urlToFile';
 import { clientUploadImagesAndGetKeys } from '@util/photos/clientUpload';
 

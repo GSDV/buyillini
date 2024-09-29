@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@util/prisma/client';
-import { CONTACT_EMAIL, DEFAULT_FREE_MONTHS, DEFAULT_PFP, getPfpUrl, imgUrl } from '@util/global';
+import { CONTACT_EMAIL, DEFAULT_PFP, getPfpUrl } from '@util/global';
 import { makePasswordHash } from '@util/api/user';
 
 
@@ -15,8 +15,7 @@ export const createUser = async (name: string, email: string, password: string) 
             netId: netId,
             email: email,
             password: hashedPassword,
-            salt: salt,
-            freeMonths: DEFAULT_FREE_MONTHS
+            salt: salt
         }
     });
     return userPrisma.id;
@@ -59,17 +58,6 @@ export const getRedactedUserFromAuth = async (authtoken: string) => {
     // return null if auth token is expired
     if (!authTokenPrisma) return null;
     return authTokenPrisma.user;
-}
-
-
-
-export const subtractFreeMonths = async (id: string, amount: number) => {
-    const res = await prisma.user.update({
-        where: { id: id },
-        data: {
-            freeMonths: { decrement: amount }
-        }
-    });
 }
 
 
@@ -142,17 +130,6 @@ export const markUserAsDeleted = async (id: string) => {
     await prisma.post.updateMany({
         where: { sellerId: id, active: true },
         data: { deleted: true }
-    });
-}
-
-
-
-export const addFreeMonthsToUser = async (where: any, freeMonths: number) => {
-    await prisma.user.update({
-        where,
-        data: {
-            freeMonths: { increment: freeMonths }
-        }
     });
 }
 
