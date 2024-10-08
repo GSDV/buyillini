@@ -34,14 +34,9 @@ Custom Status Codes (cStatus)
 - 412: Account is not activated yet and and must be verified through email before actions are allowed.
 - 413: Account is otherwise not a valid account for this action.
 - 414: Account is unathorized for this action.
-- 420: User tried claiming a promo code which does not exist.
-- 421: User tried claiming the same promo code twice.
-- 422: Not eligible user tried claiming a special promo code.
 - 430: Trying action on post that doesn't exist.
-- 431: Trying to confirm a post of opposite type (free vs paid).
 - 432: Trying action on post that isn't active.
 - 433: Trying action on post that is deleted.
-- 434: Trying action on post that is expired.
 - 440: Trying duplicate action (reporting post twice).
 
 
@@ -51,13 +46,6 @@ Custom Status Codes (cStatus)
 - 501: Token is not real.
 - 502: Token is expired.
 - 510: User requested another token, but the last token has not expired yet.
-
-
-
-6XX: Relating to Stripe calls
-- 600: Unknown Stripe error.
-- 601: Stripe payment intent (Purchase) does not exist on post.
-- 602: Post was already paid for.
 
 
 
