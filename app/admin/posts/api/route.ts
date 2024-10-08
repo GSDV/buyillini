@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 import { getUser, banUser, updateUser, deleteUser, isAdmin, markDeleteUser, deletePost } from '@util/prisma/actions/admin';
-import { addFreeMonthsToUser } from '@util/prisma/actions/user';
 import { markDeletePost } from '@util/prisma/actions/posts';
 
 
