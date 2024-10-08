@@ -18,8 +18,6 @@
       }
     ],
     "paths": {
-        "@assets/*": ["./src/assets/*"],
-        "@api/*": ["./src/api/*"],
         "@components/*": ["./src/components/*"],
         "@styles/*": ["./src/styles/*"],
         "@util/*": ["./src/util/*"]
