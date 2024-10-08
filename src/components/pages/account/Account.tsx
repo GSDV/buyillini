@@ -35,7 +35,7 @@ export default function Account({ user, ownAccount }: { user: RedactedUser, ownA
     return (
         <div className={accountStyles.container}>
             <Header user={user} ownAccount={ownAccount} />
-            {ownAccount && <Buttons freeMonths={user.freeMonths} />}
+            {ownAccount && <Buttons />}
             {ownAccount ? <OwnPosts userId={user.id} /> : <OtherPosts userId={user.id} /> }
         </div>
     );
@@ -164,7 +164,7 @@ function SettingsMenu({ user }: { user: RedactedUser }) {
 
 
 
-function Buttons({ freeMonths }: { freeMonths: number }) {
+function Buttons() {
     const { fetchCookie } = useAuthContext();
     
     const attemptLogout = async () => {
@@ -176,10 +176,7 @@ function Buttons({ freeMonths }: { freeMonths: number }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', width: '100%', alignItems: 'flex-start' }}>
             <button onClick={attemptLogout} style={{ backgroundColor: 'var(--red)', alignSelf: 'flex-start' }}>Log Out</button>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <Link href='/create/' style={{width: 'fit-content'}}><button style={{ alignSelf: 'flex-start' }}>Post</button></Link>
-                <h5 style={{ color: 'var(--grey)' }}>Free months left: {freeMonths}</h5>
-            </div>
+            <Link href='/create/' style={{width: 'fit-content'}}><button style={{ alignSelf: 'flex-start' }}>Post</button></Link>
         </div>
     );
 }
