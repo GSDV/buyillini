@@ -60,7 +60,7 @@ const prismaClientSingleton = () => {
 
 const prisma = global.prisma ?? prismaClientSingleton()
 
-export default prisma
+export {prisma};
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
 
